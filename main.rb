@@ -30,7 +30,7 @@ class Calc
 end
 
 class Position
-  attr_accessor :money, :volume, :iv, :initial
+  attr_accessor :money, :volume, :iv, :initial, :tcount
 
   def initialize(money = 10000000)
     @initial = money
@@ -38,6 +38,7 @@ class Position
     @stocks = []
     @volume = 0
     @iv = 0
+    @tcount = 0
   end
 
   def ask(price, volume)
@@ -53,6 +54,7 @@ class Position
     @money  -= price * volume * op
     @volume += volume * op
     @iv += price * volume * op
+    @tcount += 1
   end
 
   def sum
@@ -103,7 +105,8 @@ def optimize(span)
       '残株数'     => position.volume,
       '残時価総額' => (pstock.close * position.volume),
       '現金残'     => position.money,
-      '利益'       => position.money - position.initial
+      '利益'       => position.money - position.initial,
+      '取引回数'   => position.tcount
     }
   end
 end
